@@ -78,7 +78,7 @@ Forget information hiding, here there's nothing to hide, the worst
 problem here is that value objects are immutable and here you cannot
 prevent it.
 
-* PHPStan: cool things
+* PHPStan: cool things (1)
 
 I want:
 - Guaranteed immutability
@@ -88,7 +88,7 @@ I want:
 
 Enter [[file:src/Amount.php::final%20class%20Amount%20extends%20Precious][Precious]]
 
-* PHPStan: cool things
+* PHPStan: cool things (2)
 
 PHPStan can be extended, every project/library can define their rule,
 knowing the context you can be more clever in knowing what is right
@@ -105,3 +105,12 @@ Example of Precious rules:
 - Undefined properties must be reported
 
 All of that is done with a [[file:vendor/gabrielelana/precious/src/PHPStan/Reflection/PreciousPropertiesClassReflectionExtension.php::class%20PreciousPropertiesClassReflectionExtension%20implements%20PropertiesClassReflectionExtension,%20BrokerAwareClassReflectionExtension][property class reflection extension]]
+
+* Eris, Property Based Testing
+
+Example based tests are biased as the writer is a human, you think how
+your code can fail or how your code can be used and you write related
+tests but... can you really think of all the possible usages?
+
+Would be useful state what properties you expect your code to hold and
+let a test generator to [[file:test/SurpriseTest.php::class%20SurpriseTest%20extends%20TestCase][surprise you]].

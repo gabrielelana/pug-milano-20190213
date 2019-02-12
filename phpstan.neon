@@ -8,4 +8,4 @@ parameters:
     - ./test/
   ignoreErrors:
     - '#^Call to an undefined method Eris.*#'
-    - '#^Function Eris\\Generator.*#'
+    - '#^Function Eris\\.*#'
