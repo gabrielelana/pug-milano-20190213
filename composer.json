@@ -1,0 +1,14 @@
+{
+  "name": "root/pug-milano-20190213",
+  "authors": [
+    {
+      "name": "gabriele.lana",
+      "email": "gabriele.lana@cleancode.it"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "phpstan/phpstan": "^0.11.1",
+    "gabrielelana/precious": "dev-master"
+  }
+}

@@ -1,0 +1,6 @@
+#+TITLE: PUG Milan 13/02/2019
+
+* PHPStan
+If you don't use PHPStan in 2019 shame on you
+
+- [[file:src/undefined_variable.php::echo%20$b;][Undefined variables]]
