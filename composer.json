@@ -6,9 +6,15 @@
       "email": "gabriele.lana@cleancode.it"
     }
   ],
+  "autoload": {
+    "files": [
+      "src/code.php"
+    ]
+  },
   "minimum-stability": "dev",
   "require": {
     "phpstan/phpstan": "^0.11.1",
-    "gabrielelana/precious": "dev-master"
+    "gabrielelana/precious": "dev-master",
+    "guzzlehttp/guzzle": "^6.3@dev"
   }
 }

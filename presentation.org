@@ -1,6 +1,87 @@
 #+TITLE: PUG Milan 13/02/2019
 
 * PHPStan
-If you don't use PHPStan in 2019 shame on you
+If you don't use PHPStan in 2019, shame on you
 
 - [[file:src/undefined_variable.php::echo%20$b;][Undefined variables]]
+- [[file:src/undefined_classes.php::$foo%20=%20new%20Foo();][Undefined classes]]
+- [[file:src/simple_types.php::needAnInteger(1);][Simple types]]
+- [[file:src/union_types.php::needAnInteger($d);][Union types]]
+- [[file:src/optional_types.php::needAnInteger(maybeReturnsAnInteger(true));][Optional types]]
+- [[file:src/constant_types.php::echo%20$a%5B'd'%5D;][Constant types]]
+- [[file:src/properties.php::$p->foo%20=%20"Something";][Properties]]
+- [[file:callable_types.php::$callable(1);][Callable types]]
+- [[file:src/generic_types.php::swap($b);][Generic types]]
+- [[file:src/dependent_types.php::printf("This%20is%20a%20number%20%25d",%201,%20"bar");][Depentent types]]
+
+* PHPStan: I had a problem (1)
+
+It can be used as it is or it can be extended with custom rules
+
+For a long time I had this problem with value objects or simple DTOs
+
+How to implement them?
+
+#+BEGIN_SRC php :eval never
+class Order
+{
+    /** @var int */
+    private $total;
+
+    /** @var ImmutableDateTime */
+    private $at;
+
+    /** @var array<Item> */
+    private $items;
+
+    public function __construct(int $total, ImmutableDate $at, array $items)
+    {
+        // ... You got it
+    }
+
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
+    // ... You got it
+}
+#+END_SRC
+
+Tedious... I know that an IDE can generate it but...
+
+* PHPStan: I had a problem (2)
+
+Searching around... :-O
+
+#+BEGIN_SRC php :eval never
+class Order {
+    /** @var int */
+    public $total;
+
+    /** @var ImmutableDateTime */
+    public $at;
+
+    /** @var array<Item> */
+    public $items;
+
+    public function __construct(int $total, ImmutableDate $at, array $items)
+    {
+        // ... You got it
+    }
+}
+#+END_SRC
+
+Forget information hiding, here there's nothing to hide, the worst
+problem here is that value objects are immutable and here you cannot
+prevent it.
+
+* PHPStan: cool things
+
+I want:
+- Guaranteed immutability
+- Dryness
+- Type safety
+- Usability
+
+Enter
