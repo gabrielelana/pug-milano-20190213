@@ -13,6 +13,20 @@ function maybeReturnsAnInteger(bool $b): ?int
     return null;
 }
 
+function increment(int $i): int
+{
+    return $i + 1;
+}
+
+/**
+ * @param array<int, string> $a
+ * @return array<string, int>
+ */
+function swap(array $a): array
+{
+    return array_flip($a);
+}
+
 class Person
 {
     public $name;

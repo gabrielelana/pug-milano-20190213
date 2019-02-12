@@ -1,8 +1,8 @@
 #+TITLE: PUG Milan 13/02/2019
 
 * PHPStan
-If you don't use PHPStan in 2019, shame on you
 
+If you don't use PHPStan in 2019, shame on you
 - [[file:src/undefined_variable.php::echo%20$b;][Undefined variables]]
 - [[file:src/undefined_classes.php::$foo%20=%20new%20Foo();][Undefined classes]]
 - [[file:src/simple_types.php::needAnInteger(1);][Simple types]]
@@ -23,25 +23,27 @@ For a long time I had this problem with value objects or simple DTOs
 How to implement them?
 
 #+BEGIN_SRC php :eval never
-class Order
+class Amount
 {
     /** @var int */
-    private $total;
+    private $cents;
 
-    /** @var ImmutableDateTime */
-    private $at;
+    /** @var int */
+    private $precision;
 
-    /** @var array<Item> */
-    private $items;
+    /** @var string */
+    private $currency;
 
-    public function __construct(int $total, ImmutableDate $at, array $items)
+    public function __construct(int $amount, string $currency, int $precision = 2)
     {
-        // ... You got it
+        $this->cents = $cents;
+        $this->precision = $precision;
+        $this->currency = $currency;
     }
 
-    public function getTotal(): int
+    public function getCents(): int
     {
-        return $this->total;
+        return $this->cents;
     }
 
     // ... You got it
@@ -55,17 +57,17 @@ Tedious... I know that an IDE can generate it but...
 Searching around... :-O
 
 #+BEGIN_SRC php :eval never
-class Order {
+class Amount {
     /** @var int */
-    public $total;
+    public $cents;
 
-    /** @var ImmutableDateTime */
-    public $at;
+    /** @var int */
+    public $precision;
 
-    /** @var array<Item> */
-    public $items;
+    /** @var string */
+    public $currency;
 
-    public function __construct(int $total, ImmutableDate $at, array $items)
+    public function __construct(int $cents, string $currency, int $precision = 2)
     {
         // ... You got it
     }
@@ -84,4 +86,22 @@ I want:
 - Type safety
 - Usability
 
-Enter
+Enter [[file:src/Amount.php::final%20class%20Amount%20extends%20Precious][Precious]]
+
+* PHPStan: cool things
+
+PHPStan can be extended, every project/library can define their rule,
+knowing the context you can be more clever in knowing what is right
+and what is wrong.
+
+When you include a library that defines some custom rules you can
+include them using your [[file:phpstan.neon::parameters:][phpstan file]].
+
+Example of Precious rules:
+- A value object must be declared [[file:src/Amount.php::final%20class%20Amount%20extends%20Precious][final]], we have a [[file:vendor/gabrielelana/precious/src/PHPStan/Rule/PreciousClassMustBeFinalRule.php::public%20function%20processNode(Node%20$node,%20Scope%20$scope):%20array][rule]] for that
+- All properties must be accessible
+- All properties must be read only
+- All properties must be typed
+- Undefined properties must be reported
+
+All of that is done with a [[file:vendor/gabrielelana/precious/src/PHPStan/Reflection/PreciousPropertiesClassReflectionExtension.php::class%20PreciousPropertiesClassReflectionExtension%20implements%20PropertiesClassReflectionExtension,%20BrokerAwareClassReflectionExtension][property class reflection extension]]

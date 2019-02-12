@@ -7,13 +7,16 @@
     }
   ],
   "autoload": {
+    "psr-4": {
+      "PUG\\": "src/"
+    },
     "files": [
       "src/code.php"
     ]
   },
   "minimum-stability": "dev",
   "require": {
-    "phpstan/phpstan": "^0.11.1",
+    "phpstan/phpstan": "^0.10.5",
     "gabrielelana/precious": "dev-master",
     "guzzlehttp/guzzle": "^6.3@dev"
   }
