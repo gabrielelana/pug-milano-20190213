@@ -4,4 +4,8 @@ includes:
 parameters:
   level: 7
   excludes_analyse:
-    - %currentWorkingDirectory%/vendor/
+    - ./vendor/
+    - ./test/
+  ignoreErrors:
+    - '#^Call to an undefined method Eris.*#'
+    - '#^Function Eris\\Generator.*#'
