@@ -114,3 +114,65 @@ tests but... can you really think of all the possible usages?
 
 Would be useful state what properties you expect your code to hold and
 let a test generator to [[file:test/SurpriseTest.php::class%20SurpriseTest%20extends%20TestCase][surprise you]].
+
+* Eris, Shrinking
+
+Since Eris explores broadly the given domains (aka the inputs of the
+system under test) if found, the counterexample can be huge or it can
+be hard to understand why your code fails for `204833927421`, maybe it
+fails because it fails for every odd numbers, if that is true then `1`
+would be a better example of an input that breaks your code.
+
+Eris, if it finds a counterexample, it tries to "reduce" the
+counterexample at its minimal (canonical?) form so that the ending
+counterexample is as "simple" as possible. This process is called
+/shrinking/.
+
+See a [[file:test/ContainsTest.php::class%20ContainsTest%20extends%20TestCase][simple example]]
+
+* Eris, Generators
+
+Eris provides generators for the primitive values and generator
+combinators for those values but your domain can (should!) be
+different, you have your types and so you should have your generators.
+
+Here's an [[file:test/CollectionTest.php::public%20function%20testUniqueMustShortenTheNumberOfValuesWhenThereAreDuplicates()][example]] of use of generator combinators.
+
+Here's an [[file:test/CollectionTest.php::$this->forAll(new%20CollectionGenerator())][example]] of use of a custom generator.
+
+* Eris, Model Checking
+
+Before we used ~array_unique~ to verify that our implementation of
+~unique~ is correct, we can apply the same principle by compare the
+*behavior* of our SUT (System Under Test) with the *behavior* of a
+simpler system that we can call "the model".
+
+How do you test the behavior? By calling public methods ;-)
+
+Here's an [[file:test/ModelCheckingTest.php::class%20ModelCheckingTest%20extends%20TestCase][example]] of it.
+
+* Eris, in the Wild (1)
+
+#+BEGIN_SRC php :eval never
+public function testToStringAndBackProperty()
+{
+    $this->forAll(
+        Generator\int(),
+        Generator\choose(1, 20)
+    )->then(function ($amount, $scale) {
+        $money = Money::fromAmountAndCurrency(
+            $amount,
+            'EUR',
+            $scale
+        );
+        $this->assertEquals(
+            $money,
+            Money::fromString((string) $money)
+        );
+    });
+}
+#+END_SRC
+
+* Eris, in the Wild (2)
+
+Look [[https://github.com/EasyWelfare/recruiter/blob/master/spec/Recruiter/Acceptance/EnduranceTest.php#L27][here]]

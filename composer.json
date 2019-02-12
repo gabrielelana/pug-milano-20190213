@@ -26,6 +26,7 @@
     "phpunit/phpunit": "^7.3",
     "giorgiosironi/eris": "dev-master",
     "phpstan/phpstan": "*",
-    "phpstan/phpstan-phpunit": "*"
+    "phpstan/phpstan-phpunit": "*",
+    "icomefromthenet/reverse-regex": "dev-master"
   }
 }
