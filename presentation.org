@@ -193,3 +193,88 @@ public function testToStringAndBackProperty()
 * Eris, in the Wild (2)
 
 Look [[https://github.com/EasyWelfare/recruiter/blob/master/spec/Recruiter/Acceptance/EnduranceTest.php#L27][here]]
+
+* Distributed Systems: Crash!
+
+We were facing a sudden and silent death of PHP processes. Enter
+~GracefulDeat~
+
+#+BEGIN_SRC php :eval never
+GracefulDeath::around(function() {
+    try {
+        // Avoid to print the error in order to have clean output, don't try this at home :-)
+        error_reporting(E_ALL ^ E_ERROR);
+        // Creating an instance of an unknown class will cause a fatal error
+        new UnknownClass();
+
+    } catch(Exception $e) {
+        // A fatal error is uncatchable
+        echo "You cannot catch this, AHAHAHAHA!!!\n";
+    }
+})
+->afterViolentDeath("Yes, I can ;-)\n")
+->run();
+#+END_SRC
+
+How to test if something is *really* robust? How to cause *real*
+problems? Enter ~ViolentDeath~
+
+#+BEGIN_SRC php :eval never
+drink_poison($msToTakeEffect=500, $msToAgonizeAtMost=1000);
+// Here we have created a background thread that will wait
+// at least for 500ms and at most 1500ms before to cause
+// an horrible death with a segmentation fault
+
+play_russian_roulette($probabilityToDie)
+// Here we have created a background thread that will wait some time
+// and then will cause a violent death with a certain probability
+#+END_SRC
+
+* Distributed Systems: Scale Horizontally
+
+We needed to scale certain procedure, but mostly we wanted to be sure
+that, *no matter what*, some piece of code was executed.
+
+We started with notifications: we needed to notify a merchant that an
+payed for something.
+
+With multiple services, we needed to be resilient to temporary
+failures of one of those systems and so we needed a way to communicate
+not only asynchronously but we needed a way to retry to send those
+messages.
+
+Enter ~Recruiter~. An example of an optimistic job, possibly executed
+on one of N nodes, with an exponential backoff retry policy.
+
+#+BEGIN_SRC php :eval never
+Notification::fromMessage($message)
+    ->asJobOf($recruiter)
+    ->retryWithPolicy(ExponentialBackoff::forTimes(5, 120))
+    ->execute();
+#+END_SRC
+
+A simple ~Workable~ piece of code is something like that.
+
+#+BEGIN_SRC php :eval never
+class ShellCommand implements Workable
+{
+    use WorkableBehaviour;
+
+    public function execute()
+    {
+        exec($this->parameters['command'], $output, $returnCode);
+        $output = implode(PHP_EOL, $output);
+        if ($returnCode != 0) {
+            throw new RuntimeException(
+                "Command Execution failed (return code $returnCode). Output: " . $output
+            );
+        }
+        return $output;
+    }
+}
+#+END_SRC
+
+* Distributed Systems: Leader Election
+
+See ~Geezer~ and ~Recruiter~
+
