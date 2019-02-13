@@ -278,3 +278,8 @@ class ShellCommand implements Workable
 
 See ~Geezer~ and ~Recruiter~
 
+* Conclusions
+
+- UNIX way for the win.
+- Keep things simple even if they seems complex.
+- Don't abuse the language (no monands please).
