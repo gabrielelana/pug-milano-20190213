@@ -30,7 +30,7 @@ If you don't use PHPStan in 2019, shame on you
 - [[file:src/properties.php::$p->foo%20=%20"Something";][Properties]]
 - [[file:src/callable_types.php::$callable(1);][Callable types]]
 - [[file:src/generic_types.php::swap($b);][Generic types]]
-- [[file:src/dependent_types.php::printf("This%20is%20a%20number%20%25d",%201,%20"bar");][Depentent types]]
+- [[file:src/dependent_types.php::printf("This%20is%20a%20number%20%25d",%201,%20"bar");][Dependent types]]
 
 * PHPStan: I had a problem (1)
 
