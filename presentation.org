@@ -75,7 +75,8 @@ Tedious... I know that an IDE can generate it but...
 Searching around... :-O
 
 #+BEGIN_SRC php :eval never
-class Amount {
+class Amount 
+{
     /** @var int */
     public $cents;
 
