@@ -198,7 +198,7 @@ Look [[https://github.com/EasyWelfare/recruiter/blob/master/spec/Recruiter/Accep
 * Distributed Systems: Crash!
 
 We were facing a sudden and silent death of PHP processes. Enter
-~GracefulDeat~
+[[https://github.com/gabrielelana/graceful-death][GracefulDeath]]
 
 #+BEGIN_SRC php :eval never
 GracefulDeath::around(function() {
@@ -218,7 +218,7 @@ GracefulDeath::around(function() {
 #+END_SRC
 
 How to test if something is *really* robust? How to cause *real*
-problems? Enter ~ViolentDeath~
+problems? Enter [[https://github.com/gabrielelana/violent-death][ViolentDeath]]
 
 #+BEGIN_SRC php :eval never
 drink_poison($msToTakeEffect=500, $msToAgonizeAtMost=1000);
@@ -244,7 +244,7 @@ failures of one of those systems and so we needed a way to communicate
 not only asynchronously but we needed a way to retry to send those
 messages.
 
-Enter ~Recruiter~. An example of an optimistic job, possibly executed
+Enter [[https://github.com/EasyWelfare/recruiter][Recruiter]]. An example of an optimistic job, possibly executed
 on one of N nodes, with an exponential backoff retry policy.
 
 #+BEGIN_SRC php :eval never
@@ -277,7 +277,7 @@ class ShellCommand implements Workable
 
 * Distributed Systems: Leader Election
 
-See ~Geezer~ and ~Recruiter~
+See [[https://github.com/EasyWelfare/geezer][Geezer]] and [[https://github.com/EasyWelfare/recruiter][Recruiter]]
 
 * Conclusions
 
